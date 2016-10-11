@@ -24,13 +24,11 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import javax.net.SocketFactory;
-import javax.net.ssl.SSLContext;
-import javax.net.ssl.SSLSocketFactory;
-import javax.net.ssl.TrustManager;
-import javax.net.ssl.X509TrustManager;
+import javax.net.ssl.*;
 import java.io.IOException;
 import java.net.InetAddress;
 import java.net.Socket;
+import java.net.SocketAddress;
 import java.security.KeyManagementException;
 import java.security.NoSuchAlgorithmException;
 import java.security.cert.CertificateException;
@@ -161,5 +159,16 @@ public class SimpleSSLSocketFactory extends SSLSocketFactory implements Comparat
         public X509Certificate[] getAcceptedIssuers() {
             return new X509Certificate[0];
         }
+    }
+
+    public static void main(String[] args) throws IOException {
+
+        SSLServerSocketFactory factory = (SSLServerSocketFactory) SSLServerSocketFactory
+                .getDefault();
+        SSLServerSocket server = (SSLServerSocket) factory
+                .createServerSocket(10000);
+        System.out.println("ok");
+        server.accept();
+        System.out.println(server.isBound());
     }
 }
